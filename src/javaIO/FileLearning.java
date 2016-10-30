@@ -16,7 +16,6 @@ public class FileLearning {
 			System.out.println("file的绝对路径："+file.getAbsolutePath());
 			System.out.println("file的规范路径名(去掉了绝对路径里多余的符号)："+file.getCanonicalPath());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//打印file下的文件列表
