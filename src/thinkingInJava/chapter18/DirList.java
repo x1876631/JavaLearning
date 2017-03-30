@@ -1,4 +1,4 @@
-package javaIO;
+package thinkingInJava.chapter18;
 
 import java.io.File;
 import java.io.FilenameFilter;
