@@ -34,9 +34,13 @@ package thinkingInJava.chapter8;
  * 【总结】静态语句，编译时就执行。创建对象时，如果有父类先执行父类的初始化过程。初始化时先初始化类成员变量，最后执行构造函数。
  */
 public class SubClass extends SuperClass {
+	
+	public int commonValue = 2;//与父类同名的变量，如果引用是父类，则调用该变量时用的是父类的同名变量
+	
 	private int sub1 = printInit("SubClass.sub1 initialized");
 
 	public SubClass() {
+		super();//有这个super()和没有一样，如果没有会默默地调用
 		System.out.println("sub1 = " + sub1);
 		System.out.println("sub2 = " + sub2);
 	}

@@ -6,6 +6,8 @@ package thinkingInJava.chapter8;
  * 父测试类
  */
 public class SuperClass {
+	
+	public int commonValue = 1;
 	private int super1 = printInit("SuperClass.super1 initialized");
 	protected int super2;
 
