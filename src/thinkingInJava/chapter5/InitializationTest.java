@@ -36,10 +36,12 @@ public class InitializationTest {
 
 	static {
 		// 静态代码块
+//		System.out.println("static is called");
 		mValue3 = new Value(3);
 	}
 
 	public static void main(String[] args) {
+//		System.out.println("main is called");
 		InitializationTest test = new InitializationTest(new Value(1));
 	}
 }
