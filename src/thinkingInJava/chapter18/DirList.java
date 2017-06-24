@@ -8,7 +8,10 @@ import java.util.regex.Pattern;
 public class DirList {
 
 	public static void main(String[] args) {
+		// .表示当前项目的目录路径，完整路径是：/Users/xuye/Documents/workspace/javaLearning/.
 		File path = new File(".");
+		System.out.println(path.getAbsolutePath());
+
 		String[] list;
 		if (args.length == 0) {
 			list = path.list();
@@ -16,6 +19,7 @@ public class DirList {
 			list = path.list(new DirFilter(args[0]));
 		}
 		Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
+		// 所以这个list的内容就是当前项目下的文件和文件夹：bin、README.md、src和一些隐藏文件
 		for (String dirItem : list) {
 			System.out.println(dirItem);
 		}
