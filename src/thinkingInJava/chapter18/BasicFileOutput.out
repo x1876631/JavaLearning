@@ -1,0 +1,36 @@
+1: package thinkingInJava.chapter18;
+2: 
+3: import java.io.BufferedReader;
+4: import java.io.BufferedWriter;
+5: import java.io.FileWriter;
+6: import java.io.PrintWriter;
+7: import java.io.StringReader;
+8: 
+9: /**
+10:  * Created by xuye on 2017-6-26
+11:  * <p>
+12:  * 基本的文件输出
+13:  */
+14: public class BasicFileOutput {
+15: 	private static String outFileName = "/Users/xuye/Documents/workspace/javaLearning/src/thinkingInJava/chapter18/BasicFileOutput.out";
+16: 	private static String readFileName = "/Users/xuye/Documents/workspace/javaLearning/src/thinkingInJava/chapter18/BasicFileOutput.java";
+17: 
+18: 	public static void main(String[] args) throws Exception {
+19: 		// 读取readFileName文件内容
+20: 		BufferedReader in = new BufferedReader(new StringReader(
+21: 				BufferedInputFile.read(readFileName)));
+22: 		// 指定写入文件为outFileName
+23: 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
+24: 				outFileName)));
+25: 		int lineCount = 1;
+26: 		String s;
+27: 		while ((s = in.readLine()) != null) {
+28: 			// 逐行读取文件内容，如果有数据，就加个行号并写入
+29: 			out.println(lineCount++ + ": " + s);
+30: 		}
+31: 		out.close();
+32: 		// 打印写入文件的内容
+33: 		System.out.println("----输出文件的内容如下：----");
+34: 		System.out.println(BufferedInputFile.read(outFileName));
+35: 	}
+36: }
