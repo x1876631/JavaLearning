@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by xuye on 2017年6月29日
  * <p>
- * 
+ * 单线程池
  */
 public class SingleThreadExecutor {
 	public static void main(String[] args) {
