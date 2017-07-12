@@ -3,7 +3,7 @@ package thinkingInJava.chapter19;
 /**
  * Created by xuye on 2017-6-29
  * <p>
- * 学习定义一个任务
+ * 学习定义一个任务，灯泡倒计时结束后关闭
  */
 public class LiftOff implements Runnable {
 

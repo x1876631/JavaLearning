@@ -57,13 +57,23 @@ class WaitPerson implements Runnable {
 		try {
 			while (!Thread.interrupted()) {
 				synchronized (this) {
-					// 如果此时还没有饭，则等待
+					// 如果此时还没有饭，则waitPerson所在线程挂起
 					while (restaurant.meal == null) {
 						wait();
 					}
 				}
-				// 饭做完了，拿到饭了
+				// 能走到这说明被唤醒了，饭做完了，拿到饭了。
 				System.out.println("waitperson got " + restaurant.meal);
+
+				/***
+				 * 为什么要锁住restaurant.chef？锁住restaurant不是一样吗?
+				 * 
+				 * 改为锁restaurant，报异常了。 因为A对象执行notifyAll时，需要获取A对象的锁，
+				 * 所以因为调用的restaurant.chef的notifyAll()，要锁住restaurant.chef。
+				 * 
+				 * 如果调用restaurant的notifyAll，那么就需要锁restaurant，效果是一样的。
+				 * 这里之所以锁restaurant.chef是因为从业务逻辑上来讲，要唤醒厨师，而不是唤醒餐厅
+				 */
 				synchronized (restaurant.chef) {
 					// 去送饭，并唤醒厨师去做下一顿
 					restaurant.meal = null;
@@ -71,7 +81,7 @@ class WaitPerson implements Runnable {
 				}
 			}
 		} catch (InterruptedException e) {
-			System.out.println("waitPerson interrupted");
+			System.out.println("\nwaitPerson interrupted");
 		}
 
 	}
@@ -114,7 +124,7 @@ class Chef implements Runnable {
 				TimeUnit.MILLISECONDS.sleep(100);
 			}
 		} catch (InterruptedException e) {
-			System.out.println("chef interrupted");
+			System.out.println("\nchef interrupted");
 		}
 
 	}
