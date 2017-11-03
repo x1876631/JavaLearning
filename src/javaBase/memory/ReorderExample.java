@@ -1,4 +1,4 @@
-package other;
+package javaBase.memory;
 
 /**
  * Created by xuye on 2017年11月2日
@@ -27,8 +27,19 @@ package other;
 public class ReorderExample {
 
 	int a = 0;
-	// 加了volatile只能保证写flag的结果一定在读flag之前可见，但不能保证reader一定在writer之前执行...
-	volatile boolean flag = false;// 加了volatile后，只要先reader后writer，则执行顺序就是正确的
+	/**
+	 * 1、加了volatile只能保证写flag的结果一定在读flag之前可见，但不能保证reader一定在writer之前执行...
+	 * 2、编译器对volatile的重排序规则表：
+	 * 
+	 * 2.1、当第2个操作是volatile写时，无论前1个操作是什么变量的什么操作，都不允许重排序
+	 * 
+	 * 2.2、当第1个操作是volatile读时，无论第2个操作是什么变量什么操作，都不允许重排序
+	 * 
+	 * 2.3、当第1个操作是volatile写，第2个操作是volatile读时，不允许重排序
+	 * 
+	 * 具体实现是编译器生成字节码时，插入了内存屏障
+	 */
+	volatile boolean flag = false;
 	int i = 0;
 
 	public void writer() {
