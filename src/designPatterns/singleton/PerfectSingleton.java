@@ -1,4 +1,4 @@
-package designPatterns;
+package designPatterns.singleton;
 
 /**
  * created by xuye on 2017年11月5日
@@ -12,6 +12,7 @@ public class PerfectSingleton {
 	 */
 	private static class SingletonHolder {
 		// jvm在访问一个类的静态变量时，才会把它加载到内存中，所以是懒加载单例
+		// ps：外部类可以访问自己内部类的私有成员，实现原理通常是内部类生成了一个供外部类调用的函数，让外部类调用
 		private static PerfectSingleton sInstance = new PerfectSingleton();
 	}
 

@@ -1,4 +1,4 @@
-package designPatterns;
+package designPatterns.singleton;
 
 /**
  * created by xuye on 2017年11月5日
