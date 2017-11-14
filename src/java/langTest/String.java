@@ -1,4 +1,6 @@
-package java.lang;
+package java.langTest;
+
+import javaBase.memory.TestString;
 
 /**
  * Created by xuye on 2017年11月14日
@@ -14,10 +16,10 @@ package java.lang;
  * 因为jvm的实现，保证java.*开头的类必须被BootStrapClassLoader去加载，
  * 在java.lang.ClassLoader的源码里，创建Class对象需要先做一个检查，其实有个步骤是如果名字以java.开头，直接创建失败抛异常
  */
-//public class String {
-//
-//	public String(String string) {
-//		System.out.println("----new my String----");
-//	}
-//
-// }
+public class String {
+
+	public String(String string) {
+		System.out.println("----new my String----");
+	}
+
+}
