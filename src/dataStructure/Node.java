@@ -9,27 +9,8 @@ public class Node {
 	private Object mElement;// 数据域
 	private Node mNext;// 指针域
 
-	/**
-	 * 头节点的构造方法
-	 * 
-	 * @param next
-	 *            下一个节点的地址
-	 */
-	public Node(Node next) {
-		this.mNext = next;
-	}
-
-	/**
-	 * 普通节点的构造方法
-	 * 
-	 * @param element
-	 *            当前节点的数据域
-	 * @param next
-	 *            下一个节点的地址
-	 */
-	public Node(Object element, Node next) {
-		this.mElement = element;
-		this.mNext = next;
+	public Node(Object object) {
+		this.mElement = object;
 	}
 
 	public Object getElement() {
