@@ -7,7 +7,7 @@ package dataStructure;
  */
 public class MyLinkedList implements List {
 
-	private Node mHead;// 头节点
+	private Node mHead;// 头节点，不算在列表元素里
 	private Node mCurrent;// 当前要操作的节点的指针
 	private int mSize;// 列表元素个数
 
@@ -16,23 +16,21 @@ public class MyLinkedList implements List {
 		this.mSize = 0;
 	}
 
-	public void setHeadNext(Node node) {
+	/**
+	 * 设置首元节点
+	 * 
+	 * @param node
+	 *            新的首元节点
+	 */
+	public void setFirstNode(Node node) {
 		this.mHead.setNext(node);
 	}
 
 	@Override
 	public void add(Object object) {
-		if (mHead == null) {
-			// 没有头结点就初始化头结点
-			mHead = new Node(object);
-			mCurrent = mHead;
-		} else {
-			// 有了头结点就去正常添加普通节点，并指向当前新操作的结果节点
-			mCurrent.setNext(new Node(object));
-			mCurrent = mCurrent.getNext();
-		}
+		mCurrent.setNext(new Node(object));
+		mCurrent = mCurrent.getNext();
 		mSize++;
-
 	}
 
 	/**
@@ -105,15 +103,16 @@ public class MyLinkedList implements List {
 
 	@Override
 	public String toString() {
-		String string = "";
-		for (int i = 0; i < mSize; i++) {
-			try {
-				string += ((Node) get(i)).getElement() + "->";
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		StringBuilder string = new StringBuilder();
+		if (mHead == null) {
+			return "this LinkedList is null";
 		}
-		return string;
+		mCurrent = mHead.getNext();
+		while (mCurrent != null) {
+			string.append(mCurrent.getElement().toString() + "->");
+			mCurrent = mCurrent.getNext();
+		}
+		return string.toString();
 	}
 
 }

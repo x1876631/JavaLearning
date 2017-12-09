@@ -31,6 +31,10 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return this.mElement.toString();
+		if (this.mElement != null) {
+			return this.mElement.toString();
+		} else {
+			return "null";
+		}
 	}
 }
