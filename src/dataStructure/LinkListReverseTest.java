@@ -18,8 +18,40 @@ public class LinkListReverseTest {
 		list.add("c");
 		list.add("d");
 		System.out.println("----链表反转前：" + list.toString() + "----\n");
-		loopReverse(list);
+		// loopReverse(list);
+		list.setFirstNode(recursiveReverse(list.get(0)));
 		System.out.println("\n----链表反转后：" + list.toString() + "----");
+	}
+
+	/**
+	 * 递归实现反转链表，实现的比较巧妙，一开始有点难以理解<br/>
+	 * 可以参考链接文章，看看图： http://blog.csdn.net/fx677588/article/details/72357389<br/>
+	 * 简单来说就是递归到最后一个节点，从最后一个节点开始修改next实现反转，然后递归返回继续反转前面的节点，直到回到原本的第一个节点，变为了尾节点
+	 * 
+	 * @param head
+	 *            要反转的节点的前一个节点
+	 * @return Node 反转后的首节点
+	 */
+	public static Node recursiveReverse(Node head) {
+		if (head == null || head.getNext() == null) {
+			// 递归到最后一个了，返回这个节点去反转
+			return head;
+		}
+		// newHead没变过，一直指向原本链表最后一个节点，该节点反转之后变为新首节点
+		Node newHead = recursiveReverse(head.getNext());
+
+		// head递归到最后，一定会有个next，而不是最后一个节点，因为上面判断了
+		// head.getNext().getNext()==null才返回的，所以最后一次递归里head.getNext才是最后一个节点，head是前一个节点
+		Node nextNode = head.getNext();// 存储下一个节点，用于反转
+
+		// 下面这句就是递归反转算法的关键步骤
+		nextNode.setNext(head);// 开始反转节点。最后一次递归时，nextNode就是原本的尾节点，变成了首节点，并从这个节点开始反转
+
+		System.out.println("current：" + head + " ， current.next：" + nextNode + " ， next.next：" + nextNode.getNext());
+		head.setNext(null);// 前节点置空。这个置空很有必要，不置空的话会导致环链，原来的首节点无法变成尾节点
+
+		// 返回反转后的新的首节点
+		return newHead;
 	}
 
 	/**

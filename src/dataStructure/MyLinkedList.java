@@ -83,7 +83,7 @@ public class MyLinkedList implements List {
 	// }
 
 	@Override
-	public Object get(int index) throws Exception {
+	public Node get(int index) throws Exception {
 		if (index < 0 || index > mSize) {
 			throw new Exception("获取位置异常");
 		}
