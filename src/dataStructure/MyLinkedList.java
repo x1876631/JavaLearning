@@ -55,33 +55,6 @@ public class MyLinkedList implements List {
 		}
 	}
 
-	// @Override
-	// public void insert(int index, Object object) throws Exception {
-	// if (index < 0 || index > mSize) {
-	// throw new Exception("插入位置异常");
-	// }
-	// // 先指向到要操作的节点的前一个节点
-	// index(index - 1);
-	// // 创建一个节点，并让当前节点指向该新建节点
-	// mCurrent.setNext(new Node(object, mCurrent.getNext()));
-	// mSize++;
-	// }
-	//
-	// @Override
-	// public void delete(int index) throws Exception {
-	// if (isEmpty()) {
-	// throw new Exception("链表为空，无法删除");
-	// }
-	// if (index < 0 || index > mSize) {
-	// throw new Exception("删除位置异常");
-	// }
-	// // 找到要删除的那个节点的前一个节点
-	// index(index - 1);
-	// // 让前一个节点的指针指向当前节点的下一个节点
-	// mCurrent.setNext(mCurrent.getNext().getNext());
-	// mSize--;
-	// }
-
 	@Override
 	public Node get(int index) throws Exception {
 		if (index < 0 || index > mSize) {
