@@ -10,14 +10,14 @@ package dataStructure;
  * http://blog.csdn.net/fengyifei11228/article/details/5625961<br/>
  * https://segmentfault.com/a/1190000002602101<br/>
  */
-public class MyStack<T> {
+public class ArrayStack<T> implements StackInterface<T> {
 
-	private static final int SIZE = 3;// 栈默认最大深度
 	private T[] mArray;
 	private int mTop = -1;// 栈顶指针
 	private int mMaxSize;
 
-	public MyStack() {
+	@SuppressWarnings("unchecked")
+	public ArrayStack() {
 		Object[] array = new Object[SIZE];
 		mArray = (T[]) array;
 	}
@@ -28,19 +28,23 @@ public class MyStack<T> {
 	 * @param maxSize
 	 *            栈最大深度，即允许入栈的最大元素个数
 	 */
-	public MyStack(int maxSize) {
+	@SuppressWarnings("unchecked")
+	public ArrayStack(int maxSize) {
 		Object[] array = new Object[maxSize];
 		mArray = (T[]) array;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return mTop == -1;
 	}
 
+	@Override
 	public boolean isFull() {
 		return (mTop + 1) >= mArray.length;
 	}
 
+	@Override
 	public int getSize() {
 		return mArray.length;
 	}
@@ -48,7 +52,8 @@ public class MyStack<T> {
 	/**
 	 * @return 栈内元素个数
 	 */
-	public int getStackElementCount() {
+	@Override
+	public int getElementSize() {
 		return mTop + 1;
 	}
 
@@ -59,6 +64,7 @@ public class MyStack<T> {
 	 *            待添加的元素
 	 * @throws Exception
 	 */
+	@Override
 	public boolean push(T object) {
 		if (isFull()) {
 			System.out.println("当前栈已满，元素[" + object.toString() + "]添加失败");
@@ -75,6 +81,7 @@ public class MyStack<T> {
 	 * 
 	 * @return 栈中最顶层的元素
 	 */
+	@Override
 	public T pop() {
 		if (isEmpty()) {
 			System.out.println("当前栈已空");
@@ -89,8 +96,13 @@ public class MyStack<T> {
 	/**
 	 * @return 返回当前栈顶元素
 	 */
+	@Override
 	public T peek() {
-		return mArray[mTop];
+		if (isEmpty()) {
+			return null;
+		} else {
+			return mArray[mTop];
+		}
 	}
 
 	public void display() {
@@ -98,7 +110,7 @@ public class MyStack<T> {
 		if (isEmpty()) {
 			System.out.println("当前栈为空");
 		} else {
-			for (int i = 0; i <= mTop; i++) {
+			for (int i = mTop; i >= 0; i--) {
 				builder.append(mArray[i] + " ");
 			}
 			System.out.println("----打印当前栈内所有元素：----");
@@ -106,8 +118,8 @@ public class MyStack<T> {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-		MyStack<Integer> stack = new MyStack<Integer>();
+	public static void main(String[] args) {
+		ArrayStack<Integer> stack = new ArrayStack<Integer>();
 		stack.push(1);
 		stack.push(2);
 		stack.push(3);

@@ -5,19 +5,24 @@ package dataStructure;
  * 
  * 链表节点类，就有2个变量，数据域和指针域
  */
-public class Node {
-	private Object mElement;// 数据域
+public class Node<T> {
+	private T mElement;// 数据域
 	private Node mNext;// 指针域
 
-	public Node(Object object) {
-		this.mElement = object;
+	public Node(T element) {
+		this(element, null);
 	}
 
-	public Object getElement() {
+	public Node(T element, Node next) {
+		this.mElement = element;
+		this.mNext = next;
+	}
+
+	public T getElement() {
 		return mElement;
 	}
 
-	public void setElement(Object element) {
+	public void setElement(T element) {
 		this.mElement = element;
 	}
 
