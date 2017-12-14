@@ -156,6 +156,140 @@ public class BinaryTree {
 		}
 	}
 
+	/**
+	 * 参考1：https://www.bysocket.com/?p=1209<br/>
+	 * 参考2：http://www.cnblogs.com/MrListening/p/5782752.html<br/>
+	 * 参考3：图片讲解比较清晰，http://blog.csdn.net/fengrunche/article/details/52305748<br/>
+	 * 删除指定值对应的节点，分4步：<br/>
+	 * 1、找到要删除的节点<br/>
+	 * 2、判断是有没有左右子节点，如果没有就简单修改其父节点的左或者右节点为null<br/>
+	 * 3、判断是有仅有一个左右子节点，如果仅有一个，就将该单节点变成父节点的左右子节点<br/>
+	 * 4、判断是否有2个子节点，如果有2个子节点，先找到后续节点，代替要删除的节点(通过修改删除节点的父节点的子节点关系)，
+	 * 然后调整该后续节点的左右子节点
+	 * 
+	 * @param value
+	 *            要删除的节点里的值
+	 * @return 删除的节点对象
+	 */
+	public BinaryNode delete(int value) {
+		if (mRootNode == null) {
+			return null;
+		}
+		BinaryNode parent = mRootNode;
+		BinaryNode current = mRootNode;
+		boolean isLeftChild = false;// 要删除的节点在左还是在右
+
+		// 先遍历一遍，找到要删除的节点，current就是要删除的节点，如果找不到就返回null了
+		while (current.value != value) {
+			// 当前节点不是要删除的节点，则下移parent指针
+			parent = current;
+			if (value < current.value) {
+				// 说明要删除的节点在左子树
+				isLeftChild = true;
+				current = current.left;
+			} else {
+				// 要删除的节点在右子树
+				isLeftChild = false;
+				current = current.right;
+			}
+
+			// current==null说明已经遍历到叶子节点了，还没有找到要删除的值对应的节点
+			if (current == null) {
+				return current;
+			}
+		}
+
+		// 上边的逻辑走完没返回，说明找到了要删除的节点current，再做删除判断
+		// 1、要删除的节点是叶子节点，无左右子树，很简单，直接删掉current就行
+		if (current.left == null && current.right == null) {
+			if (current == mRootNode) {
+				// 如果当前节点是root节点(没有父节点，单独设置)
+				mRootNode = null;
+			} else {
+				// 根据在左还是右，给父节点的引用置空，就相当于删除了
+				if (isLeftChild) {
+					parent.left = null;
+				} else {
+					parent.right = null;
+				}
+			}
+		}
+
+		// 2、如果要删除的节点不是叶子节点，但只有一个子树
+		// 做每种判断里，都应该判断下当前要删除的节点current是不是根节点，
+		// 如果是要删除根节点的话，就直接让根节点指针指向当前根节点的左孩子或右孩子，然后删除这个根节点
+		else if (current.right == null) {
+			// 如果要删除的节点只有左孩子，那么就让该节点的父亲结点指向该节点的左孩子，然后删除该节点，返回true；
+			if (current == mRootNode) {
+				mRootNode = current.left;
+			} else if (isLeftChild) {
+				// 要删除的节点在父节点的左子树，将父节点的左子树指向该节点的左孩子
+				parent.left = current.left;
+			} else {
+				// 要删除的节点在父节点的右子树，将父节点的右子树指向该节点的左孩子
+				parent.right = current.left;
+			}
+		} else if (current.left == null) {
+			// 如果要删除的节点只有右孩子，那么就让该节点的父亲结点指向该节点的右孩子，然后删除该节点，返回true
+			if (current == mRootNode) {
+				mRootNode = current.right;
+			} else if (isLeftChild) {
+				parent.right = current.right;
+			} else {
+				parent.left = current.right;
+			}
+		}
+
+		// 3、最复杂的情况，要删除的节点左右子树都不为空
+		else if (current.left != null && current.right != null) {
+			// 需要找到后续节点，后继节点就是比要删除的节点的value值要大的节点集合中的最小值，所以就是右子树里的最小值
+			// 找后续节点的时候，就已经调整过子树了，所以接下来就更改一下parent的左右子树就好了
+			BinaryNode successor = getDeleteSuccessor(current);
+			if (current == mRootNode) {
+				mRootNode = successor;
+			} else if (isLeftChild) {
+				parent.left = successor;
+			} else {
+				parent.right = successor;
+			}
+
+			// 把删除节点的左子树指向后续节点的左节点
+			successor.left = current.left;
+		}
+		return current;
+	}
+
+	/**
+	 * 获取替代删除节点的后续节点，后续节点就是比要删除节点的value值大的所有节点里value值最小的一个
+	 * 
+	 * @param deleteNode
+	 *            要删除的节点
+	 * @return 后续节点
+	 */
+	public BinaryNode getDeleteSuccessor(BinaryNode deleteNode) {
+		BinaryNode current = deleteNode.right;
+		BinaryNode successor = null;
+		BinaryNode successorParent = null;
+		// 遍历待删除节点的右子树，找到最小值
+		while (current != null) {
+			successorParent = successor;
+			successor = current;// 记录一下current，如果后面current==null，这个current就是后续节点
+			current = current.left;// 移动到左子树，继续查询最小值
+		}
+
+		// 找到了后续节点，且后续节点有右子树
+		if (successor != deleteNode.right) {
+			// 把后续节点的右子树给后续节点的父左子树
+			successorParent.left = successor.right;
+
+			// 然后让后续节点代替删除的节点，并把原来删除节点的右子树指向该节点的右子树
+			successor.right = deleteNode.right;
+		}
+
+		// 没有右子树就直接返回(此时已经是最小值了，所以也不可能有左子树)
+		return successor;
+	}
+
 	public static void main(String[] args) {
 		BinaryTree bt = new BinaryTree(52);
 		bt.insert(580);
@@ -185,5 +319,9 @@ public class BinaryTree {
 
 		System.out.println("获取当前树的最小值:" + bt.getMinValue());
 		System.out.println("获取当前树的最大值:" + bt.getMaxValue());
+
+		bt.delete(52); // 删除有两个子节点的节点，且删除节点为根节点
+		System.out.println("\n----中序遍历----");
+		bt.inOrderTraverse(bt.mRootNode);
 	}
 }
