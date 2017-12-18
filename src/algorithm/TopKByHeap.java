@@ -5,7 +5,8 @@ import java.util.Arrays;
 /**
  * Created by xuye on 2017年12月18日
  * <p>
- * top k问题，解法：使用最小堆，思路参考：http://www.cnblogs.com/big-sun/p/4085793.html<br/>
+ * TopK问题，解法1：使用最小堆，思路参考：http://lib.csdn.net/article/datastructure/54773<br/>
+ * 数据量比较大（特别是大到内存不可以容纳）时，偏向于采用堆<br/>
  * 思路：<br/>
  * 1、在n个数里找最大的m个数，先从n个数里取前m个数生成一个最小堆，堆的根节点是这个堆里最小的数，<br/>
  * 2、然后从m+1个数开始，不断取值和最小堆的根节点比较，如果取值<=根节点值，就丢弃；如果>根节点值，就替代根节点值，<br/>

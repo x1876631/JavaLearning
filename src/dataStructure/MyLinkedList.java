@@ -5,7 +5,7 @@ package dataStructure;
  * 
  * 自定义实现的单向链表
  */
-public class MyLinkedList implements List {
+public class MyLinkedList implements ListInterface {
 
 	private Node mHead;// 头节点，不算在列表元素里
 	private Node mCurrent;// 当前要操作的节点的指针

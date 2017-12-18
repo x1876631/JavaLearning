@@ -5,7 +5,7 @@ package dataStructure;
  * 
  * 列表通用抽象操作接口，包括插入、删除、读取、获取列表长度、判断是否为空
  */
-public interface List<T> {
+public interface ListInterface<T> {
 
 	/**
 	 * 获取列表长度
