@@ -6,38 +6,38 @@ package dataStructure;
  * 链表节点类，就有2个变量，数据域和指针域
  */
 public class Node<T> {
-	private T mElement;// 数据域
-	private Node mNext;// 指针域
+	public T element;// 数据域
+	public Node next;// 指针域
 
 	public Node(T element) {
 		this(element, null);
 	}
 
 	public Node(T element, Node next) {
-		this.mElement = element;
-		this.mNext = next;
+		this.element = element;
+		this.next = next;
 	}
 
 	public T getElement() {
-		return mElement;
+		return element;
 	}
 
 	public void setElement(T element) {
-		this.mElement = element;
+		this.element = element;
 	}
 
 	public Node getNext() {
-		return mNext;
+		return next;
 	}
 
 	public void setNext(Node next) {
-		this.mNext = next;
+		this.next = next;
 	}
 
 	@Override
 	public String toString() {
-		if (this.mElement != null) {
-			return this.mElement.toString();
+		if (this.element != null) {
+			return this.element.toString();
 		} else {
 			return "null";
 		}
