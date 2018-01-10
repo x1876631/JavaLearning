@@ -318,6 +318,27 @@ public class BinaryTree {
 		}
 	}
 
+	/**
+	 * 获取树的深度
+	 * 
+	 * @param root
+	 *            树的根节点
+	 * @return 树的深度
+	 */
+	public int getDepth(BinaryNode root) {
+		if (root == null) {
+			return 0;
+		}
+		// 获取左子树深度
+		int left = getDepth(root.left);
+		System.out.println("当前节点值为：" + root.value + " ,左子树深度：" + left);
+		// 获取右子树深度
+		int right = getDepth(root.right);
+		System.out.println("当前节点值为：" + root.value + " ,右子树深度：" + right);
+		// 比较左右子树深度，更深的那个值+1返回
+		return left > right ? left + 1 : right + 1;
+	}
+
 	public static void main(String[] args) {
 		BinaryTree bt = new BinaryTree(52);
 		bt.insert(580);
@@ -332,6 +353,9 @@ public class BinaryTree {
 		bt.insert(455);
 		bt.insert(777);
 		bt.insert(999);
+
+		System.out.println("\n----获取树的深度----");
+		System.out.println("树的深度：" + bt.getDepth(bt.mRootNode));
 
 		System.out.println("\n----按层遍历----");
 		bt.leverIterator(bt.mRootNode);
