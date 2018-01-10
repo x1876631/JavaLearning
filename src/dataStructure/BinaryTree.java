@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.util.LinkedList;
+
 /**
  * Created by xuye on 2017年12月13日
  * <p>
@@ -159,7 +161,8 @@ public class BinaryTree {
 	/**
 	 * 参考1：https://www.bysocket.com/?p=1209<br/>
 	 * 参考2：http://www.cnblogs.com/MrListening/p/5782752.html<br/>
-	 * 参考3：图片讲解比较清晰，http://blog.csdn.net/fengrunche/article/details/52305748<br/>
+	 * 参考3：图片讲解比较清晰，http://blog.csdn.net/fengrunche/article/details/52305748
+	 * <br/>
 	 * 删除指定值对应的节点，分4步：<br/>
 	 * 1、找到要删除的节点<br/>
 	 * 2、判断是有没有左右子节点，如果没有就简单修改其父节点的左或者右节点为null<br/>
@@ -290,6 +293,31 @@ public class BinaryTree {
 		return successor;
 	}
 
+	/**
+	 * s型，按层遍历<br/>
+	 * 靠队列实现，每次遍历的某节点是，都将左右子节点插入队列，这样访问顺序必定是先左再右，且是同一层
+	 */
+	public void leverIterator(BinaryNode node) {
+		if (node == null) {
+			return;
+		} else {
+			LinkedList<BinaryNode> linkedList = new LinkedList<>();
+			linkedList.add(node);
+			BinaryNode current = null;
+			while (!linkedList.isEmpty()) {
+				current = linkedList.poll();
+				// 循环遍历队列
+				System.out.print(current.value + " ");
+				if (current.left != null) {
+					linkedList.add(current.left);
+				}
+				if (current.right != null) {
+					linkedList.add(current.right);
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		BinaryTree bt = new BinaryTree(52);
 		bt.insert(580);
@@ -304,6 +332,10 @@ public class BinaryTree {
 		bt.insert(455);
 		bt.insert(777);
 		bt.insert(999);
+
+		System.out.println("\n----按层遍历----");
+		bt.leverIterator(bt.mRootNode);
+
 		System.out.println("\n----中序遍历----");
 		bt.inOrderTraverse(bt.mRootNode);
 
@@ -320,6 +352,7 @@ public class BinaryTree {
 		System.out.println("获取当前树的最小值:" + bt.getMinValue());
 		System.out.println("获取当前树的最大值:" + bt.getMaxValue());
 
+		System.out.println("\n----删除一个节点 52----");
 		bt.delete(52); // 删除有两个子节点的节点，且删除节点为根节点
 		System.out.println("\n----中序遍历----");
 		bt.inOrderTraverse(bt.mRootNode);
