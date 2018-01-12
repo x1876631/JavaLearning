@@ -62,4 +62,12 @@ public class ClassForReflectionTest {
 	private void testStepEnd() {
 		System.out.println(tag + "结束");
 	}
+
+	public void testParams(int i, Object o) {
+
+	}
+
+	private void testParams2(boolean b) {
+
+	}
 }

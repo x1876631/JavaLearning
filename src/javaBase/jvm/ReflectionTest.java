@@ -56,13 +56,35 @@ public class ReflectionTest {
 
 				// 调用使用反射获取的方法
 				testMethod.invoke(test, null);
-			}
 
-			System.out.println("反射调用的耗时："
-					+ (System.currentTimeMillis() - beginTime) + "ms");
+				System.out.println("反射调用的耗时："
+						+ (System.currentTimeMillis() - beginTime) + "ms");
+
+				testGetParameterTypes(cls);
+			}
 		} catch (Exception e) {
 			System.out.println("----反射测试过程出现异常----");
 			e.printStackTrace();
+		}
+	}
+
+	public void testGetParameterTypes(Class cls) {
+		System.out.println("----测试 method.getParameterTypes()----");
+		// 找个带参数的方法
+		Method[] methods = cls.getDeclaredMethods();
+
+		// 看看getParameterTypes里面是什么？
+		for (Method method : methods) {
+			System.out.println("method name: " + method.getName());
+			Class<?>[] parameterTypes = method.getParameterTypes();
+			if (parameterTypes != null && parameterTypes.length > 0) {
+				System.out.println("parameterTypes[0]:" + parameterTypes[0]);
+			}
+
+			for (Class<?> class1 : parameterTypes) {
+				System.out.print("方法参数：" + class1.getName() + "  ");
+			}
+			System.out.println("\n");
 		}
 	}
 }
