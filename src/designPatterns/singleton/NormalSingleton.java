@@ -3,9 +3,10 @@ package designPatterns.singleton;
 /**
  * created by xuye on 2017年11月5日
  * 
- * 单例模式，最常见的设计模式，当在整个系统中只需要拥有一个这样的对象时，使用该模式，比如imageLoader
+ * 单例模式，最常见的设计模式，当在整个系统中只需要拥有一个这样的对象时，使用该模式，比如imageLoader<br/>
+ * 本例为懒汉式单例，需要使用时才去实例化<br/>
+ * http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/ <br/>
  * 
- * 本例为懒汉式单例，需要使用时才去实例化
  */
 public class NormalSingleton {
 
@@ -50,9 +51,9 @@ public class NormalSingleton {
 		// 【解决办法】将sInstance变量用volatile修饰，阻止了重排序，sInstance！=null一定在new
 		// NormalSingleton()完成以后
 
-		// 但是！不同虚拟机的实现不一样，可能对volatile不够支持，所以这种写法还是有问题，更好的写法可以采用静态内部类的形式
+		// 但是！不同虚拟机的实现不一样，可能对volatile不够支持，或者jdk版本<5时还是会重排序，
+		// 所以这种写法还是有问题，更好的写法可以采用静态内部类的形式
 
 		return sInstance;
 	}
-
 }
