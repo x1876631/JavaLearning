@@ -1,6 +1,7 @@
 package dataStructure;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * Created by xuye on 2017年12月13日
@@ -90,6 +91,15 @@ public class BinaryTree {
 	}
 
 	/**
+	 * 访问节点，输出数据
+	 * 
+	 * @param node
+	 */
+	public void visit(BinaryNode node) {
+		node.display();
+	}
+
+	/**
 	 * 递归实现的中序遍历，顺序为：先访问左子树，访问根，再访问右子树
 	 * 
 	 * @param node
@@ -103,9 +113,36 @@ public class BinaryTree {
 		// 如果有左子树，去访问左子树
 		inOrderTraverse(root.left);
 		// 递归到最底层的叶子节点，才会走下面的访问根语句
-		root.display();
+		visit(root);
 		// 访问完当前root的左子树和根后，再访问右子树
 		inOrderTraverse(root.right);
+	}
+
+	/**
+	 * 非递归的中序遍历，顺序是左中右<br/>
+	 * 参考：http://blog.csdn.net/u011514810/article/details/75907170
+	 * 
+	 * @param root
+	 */
+	public void inOrderLoop(BinaryNode root) {
+		Stack<BinaryNode> stack = new Stack<BinaryNode>();
+		BinaryNode p = root;
+		while (p != null || !stack.empty()) {
+			// 不断压根节点入栈，然后查找这个入栈节点是否有左节点，再把入栈节点的左节点依次压入
+			while (p != null) {
+				stack.push(p);
+				// 直到p是叶子节点的left
+				p = p.left;
+			}
+			// 到叶子节点了，开始拿节点遍历
+			if (!stack.empty()) {
+				// 访问的其实都算是根节点
+				BinaryNode node = stack.pop();
+				visit(node);
+				// 开始遍历这个节点的右子树
+				p = node.right;
+			}
+		}
 	}
 
 	/**
@@ -117,9 +154,34 @@ public class BinaryTree {
 		if (root == null) {
 			return;
 		}
-		root.display();
+		visit(root);
 		preOrderTraverse(root.left);
 		preOrderTraverse(root.right);
+	}
+
+	/**
+	 * 非递归，前序遍历，中左右
+	 * 
+	 * @param root
+	 */
+	public void preOrderLoop(BinaryNode root) {
+		BinaryNode p = root;
+		Stack<BinaryNode> stack = new Stack<BinaryNode>();
+		while (p != null || !stack.empty()) {
+			// 当p==null时，可能是遍历到叶子节点的子节点了
+			while (p != null) {
+				// 访问根并压入，然后访问其左节点
+				visit(p);
+				stack.push(p);
+				p = p.left;
+			}
+
+			if (!stack.empty()) {
+				// 拿当前节点的右节点，此时根节点和左节点已经遍历完了
+				BinaryNode node = stack.pop();
+				p = node.right;
+			}
+		}
 	}
 
 	/**
@@ -133,7 +195,7 @@ public class BinaryTree {
 		}
 		postOrderTraverse(root.left);
 		postOrderTraverse(root.right);
-		root.display();
+		visit(root);
 	}
 
 	public int getMinValue() {
@@ -161,8 +223,7 @@ public class BinaryTree {
 	/**
 	 * 参考1：https://www.bysocket.com/?p=1209<br/>
 	 * 参考2：http://www.cnblogs.com/MrListening/p/5782752.html<br/>
-	 * 参考3：图片讲解比较清晰，http://blog.csdn.net/fengrunche/article/details/52305748
-	 * <br/>
+	 * 参考3：图片讲解比较清晰，http://blog.csdn.net/fengrunche/article/details/52305748 <br/>
 	 * 删除指定值对应的节点，分4步：<br/>
 	 * 1、找到要删除的节点<br/>
 	 * 2、判断是有没有左右子节点，如果没有就简单修改其父节点的左或者右节点为null<br/>
@@ -360,11 +421,17 @@ public class BinaryTree {
 		System.out.println("\n----按层遍历----");
 		bt.leverIterator(bt.mRootNode);
 
-		System.out.println("\n----中序遍历----");
+		System.out.println("\n----中序遍历，递归----");
 		bt.inOrderTraverse(bt.mRootNode);
 
-		System.out.println("\n----前序遍历----");
+		System.out.println("\n----中序遍历，非递归----");
+		bt.inOrderLoop(bt.mRootNode);
+
+		System.out.println("\n----前序遍历，递归----");
 		bt.preOrderTraverse(bt.mRootNode);
+
+		System.out.println("\n----前序遍历，非递归----");
+		bt.preOrderLoop(bt.mRootNode);
 
 		System.out.println("\n----后序遍历----");
 		bt.postOrderTraverse(bt.mRootNode);
