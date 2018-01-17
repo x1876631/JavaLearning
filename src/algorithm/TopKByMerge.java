@@ -19,7 +19,9 @@ public class TopKByMerge {
 	 * a[5,3,2,1],b[7,4,3,1] -> result[7,5,4]
 	 * 
 	 * @param input
+	 *            n个有序的待合并数组
 	 * @param k
+	 *            要求得的合并后的元素个数
 	 * @return
 	 */
 	public static int[] getTopK(List<List<Integer>> input, int k) {
@@ -32,22 +34,31 @@ public class TopKByMerge {
 			int max = Integer.MIN_VALUE;
 			int maxIndex = 0;
 
-			// 挨个从每个排好序的数组里取没扫描过的最大值，即list.get(index[j])，给max
+			// 遍历各个数组，挨个从每个排好序的数组里取还没扫描过的值，即list.get(index[j])
 			for (int j = 0; j < input.size(); j++) {
-				// list是已经排好序的一个元素集
+
 				List<Integer> list = input.get(j);
 
+				// 如果第j数组已经取完了，则跳过该数组
 				if (index[j] < list.size()) {
+					// 第j数组还有值可以取，则取出来和本次的max比较，如果比max大，就更新max
 					if (max < list.get(index[j])) {
 						max = list.get(index[j]);
+
+						// 记录一下max元素产生于哪个数组，下次取值从这个数组的下一位开始取
 						maxIndex = j;
 					}
 				}
 			}
 			if (max == Integer.MIN_VALUE) {
+				// 如果都是空数组，返回空结果
 				return result;
 			}
+
+			// 本次比较，得到了一个max值，保存到结果数组里
 			result[i] = max;
+
+			// 记录一下本次的最大值是哪个数组里的，下次从这个值的下一个值开始取值
 			index[maxIndex] += 1;
 		}
 		return result;
