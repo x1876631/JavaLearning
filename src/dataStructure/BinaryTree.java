@@ -13,10 +13,10 @@ import java.util.Stack;
  * 基础操作的java实现：http://blog.csdn.net/fengrunche/article/details/52305748<br/>
  */
 public class BinaryTree {
-	private BinaryNode mRootNode;
+	private TreeNode mRootNode;
 
 	public BinaryTree(int data) {
-		mRootNode = new BinaryNode(data);
+		mRootNode = new TreeNode(data);
 		mRootNode.left = null;
 		mRootNode.right = null;
 	}
@@ -29,13 +29,13 @@ public class BinaryTree {
 	 * @return true表示插入成功
 	 */
 	public boolean insert(int value) {
-		BinaryNode newNode = new BinaryNode(value);
+		TreeNode newNode = new TreeNode(value);
 		if (mRootNode == null) {
 			mRootNode = newNode;
 			return true;
 		} else {
-			BinaryNode current = mRootNode;
-			BinaryNode parent = null;
+			TreeNode current = mRootNode;
+			TreeNode parent = null;
 			while (true) {
 				if (value < current.value) {
 					// 比根节点小的值都放在左子树里
@@ -70,8 +70,8 @@ public class BinaryTree {
 	 *            待查询的值
 	 * @return 和指定的值相等的节点
 	 */
-	public BinaryNode find(int value) {
-		BinaryNode current = mRootNode;
+	public TreeNode find(int value) {
+		TreeNode current = mRootNode;
 		while (true) {
 			if (value == current.value) {
 				System.out.println("find " + value + ": success ");
@@ -95,7 +95,7 @@ public class BinaryTree {
 	 * 
 	 * @param node
 	 */
-	public void visit(BinaryNode node) {
+	public void visit(TreeNode node) {
 		node.display();
 	}
 
@@ -105,7 +105,7 @@ public class BinaryTree {
 	 * @param node
 	 *            开始遍历的节点
 	 */
-	public void inOrderTraverse(BinaryNode root) {
+	public void inOrderTraverse(TreeNode root) {
 		if (root == null) {
 			// 如果root为null，说明root的父节点就是叶子节点了，返回
 			return;
@@ -124,9 +124,9 @@ public class BinaryTree {
 	 * 
 	 * @param root
 	 */
-	public void inOrderLoop(BinaryNode root) {
-		Stack<BinaryNode> stack = new Stack<BinaryNode>();
-		BinaryNode p = root;
+	public void inOrderLoop(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		TreeNode p = root;
 		while (p != null || !stack.empty()) {
 			// 不断压根节点入栈，然后查找这个入栈节点是否有左节点，再把入栈节点的左节点依次压入
 			while (p != null) {
@@ -137,7 +137,7 @@ public class BinaryTree {
 			// 到叶子节点了，开始拿节点遍历
 			if (!stack.empty()) {
 				// 访问的其实都算是根节点
-				BinaryNode node = stack.pop();
+				TreeNode node = stack.pop();
 				visit(node);
 				// 开始遍历这个节点的右子树
 				p = node.right;
@@ -150,7 +150,7 @@ public class BinaryTree {
 	 * 
 	 * @param root
 	 */
-	public void preOrderTraverse(BinaryNode root) {
+	public void preOrderTraverse(TreeNode root) {
 		if (root == null) {
 			return;
 		}
@@ -164,9 +164,9 @@ public class BinaryTree {
 	 * 
 	 * @param root
 	 */
-	public void preOrderLoop(BinaryNode root) {
-		BinaryNode p = root;
-		Stack<BinaryNode> stack = new Stack<BinaryNode>();
+	public void preOrderLoop(TreeNode root) {
+		TreeNode p = root;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
 		while (p != null || !stack.empty()) {
 			// 当p==null时，可能是遍历到叶子节点的子节点了
 			while (p != null) {
@@ -178,7 +178,7 @@ public class BinaryTree {
 
 			if (!stack.empty()) {
 				// 拿当前节点的右节点，此时根节点和左节点已经遍历完了
-				BinaryNode node = stack.pop();
+				TreeNode node = stack.pop();
 				p = node.right;
 			}
 		}
@@ -189,7 +189,7 @@ public class BinaryTree {
 	 * 
 	 * @param root
 	 */
-	public void postOrderTraverse(BinaryNode root) {
+	public void postOrderTraverse(TreeNode root) {
 		if (root == null) {
 			return;
 		}
@@ -199,7 +199,7 @@ public class BinaryTree {
 	}
 
 	public int getMinValue() {
-		BinaryNode current = mRootNode;
+		TreeNode current = mRootNode;
 		while (true) {
 			if (current.left == null) {
 				return current.value;
@@ -210,7 +210,7 @@ public class BinaryTree {
 	}
 
 	public int getMaxValue() {
-		BinaryNode current = mRootNode;
+		TreeNode current = mRootNode;
 		while (true) {
 			if (current.right == null) {
 				return current.value;
@@ -235,12 +235,12 @@ public class BinaryTree {
 	 *            要删除的节点里的值
 	 * @return 删除的节点对象
 	 */
-	public BinaryNode delete(int value) {
+	public TreeNode delete(int value) {
 		if (mRootNode == null) {
 			return null;
 		}
-		BinaryNode parent = mRootNode;
-		BinaryNode current = mRootNode;
+		TreeNode parent = mRootNode;
+		TreeNode current = mRootNode;
 		boolean isLeftChild = false;// 要删除的节点在左还是在右
 
 		// 先遍历一遍，找到要删除的节点，current就是要删除的节点，如果找不到就返回null了
@@ -308,7 +308,7 @@ public class BinaryTree {
 		else if (current.left != null && current.right != null) {
 			// 需要找到后续节点，后继节点就是比要删除的节点的value值要大的节点集合中的最小值，所以就是右子树里的最小值
 			// 找后续节点的时候，就已经调整过子树了，所以接下来就更改一下parent的左右子树就好了
-			BinaryNode successor = getDeleteSuccessor(current);
+			TreeNode successor = getDeleteSuccessor(current);
 			if (current == mRootNode) {
 				mRootNode = successor;
 			} else if (isLeftChild) {
@@ -330,10 +330,10 @@ public class BinaryTree {
 	 *            要删除的节点
 	 * @return 后续节点
 	 */
-	public BinaryNode getDeleteSuccessor(BinaryNode deleteNode) {
-		BinaryNode current = deleteNode.right;
-		BinaryNode successor = null;
-		BinaryNode successorParent = null;
+	public TreeNode getDeleteSuccessor(TreeNode deleteNode) {
+		TreeNode current = deleteNode.right;
+		TreeNode successor = null;
+		TreeNode successorParent = null;
 		// 遍历待删除节点的右子树，找到最小值
 		while (current != null) {
 			successorParent = successor;
@@ -358,13 +358,13 @@ public class BinaryTree {
 	 * s型，按层遍历<br/>
 	 * 靠队列实现，每次遍历的某节点是，都将左右子节点插入队列，这样访问顺序必定是先左再右，且是同一层
 	 */
-	public void leverIterator(BinaryNode node) {
+	public void leverIterator(TreeNode node) {
 		if (node == null) {
 			return;
 		} else {
-			LinkedList<BinaryNode> linkedList = new LinkedList<>();
+			LinkedList<TreeNode> linkedList = new LinkedList<>();
 			linkedList.add(node);
-			BinaryNode current = null;
+			TreeNode current = null;
 			while (!linkedList.isEmpty()) {
 				current = linkedList.poll();
 				// 循环遍历队列
@@ -386,7 +386,7 @@ public class BinaryTree {
 	 *            树的根节点
 	 * @return 树的深度
 	 */
-	public int getDepth(BinaryNode root) {
+	public int getDepth(TreeNode root) {
 		if (root == null) {
 			return 0;
 		}
@@ -398,6 +398,51 @@ public class BinaryTree {
 		System.out.println("当前节点值为：" + root.value + " ,右子树深度：" + right);
 		// 比较左右子树深度，更深的那个值+1返回
 		return left > right ? left + 1 : right + 1;
+	}
+
+	/**
+	 * 求每一层的最大值<br/>
+	 * 参考：http://www.tk4479.net/mine_song/article/details/70213201<br/>
+	 * 
+	 * @param root
+	 *            根节点
+	 */
+	public static void bfs(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		// 用一个队列存储待遍历的节点
+		LinkedList<TreeNode> list = new LinkedList<TreeNode>();
+		list.add(root);
+		int currentLevelNum = 1;// 当前层的节点数
+		int nextLevelNum = 0;// 下一层的节点数
+		int levelMaxValue = Integer.MIN_VALUE;// 本层的最大值
+		while (!list.isEmpty()) {
+			// 不断的从队列里，拿本层元素
+			TreeNode node = list.poll();
+			currentLevelNum--;
+			// 比较当前节点和之前获取的本层最大值，更新最大值
+			levelMaxValue = Math.max(node.value, levelMaxValue);
+
+			// 添加该节点的子节点到队列里，同时记录一下，下一层的节点个数，好在循环中判断，拿本层的节点数据
+			if (node.left != null) {
+				list.add(node.left);
+				nextLevelNum++;
+			}
+			if (node.right != null) {
+				list.add(node.right);
+				nextLevelNum++;
+			}
+
+			// 如果遍历完本层所有数据了，输出一下最大值
+			if (currentLevelNum == 0) {
+				System.out.println("本层所有节点已经遍历完了，找到的最大值：" + levelMaxValue);
+				// 重置所有值
+				currentLevelNum = nextLevelNum;
+				nextLevelNum = 0;
+				levelMaxValue = Integer.MIN_VALUE;
+			}
+		}
 	}
 
 	public static void main(String[] args) {
@@ -414,6 +459,16 @@ public class BinaryTree {
 		bt.insert(455);
 		bt.insert(777);
 		bt.insert(999);
+		/***
+		 * 执行完以后，这个二叉树有5层，样子如下：<br/>
+		 *                52<br/>
+		 *        	12 				580<br/>
+		 *    	9      50   	58					888<br/>
+		 * 			 32	          	248     	 666      	999<br/>  
+		 * 								455     	777<br/>
+		 */
+		
+		
 
 		System.out.println("\n----获取树的深度----");
 		System.out.println("树的深度：" + bt.getDepth(bt.mRootNode));
@@ -447,5 +502,8 @@ public class BinaryTree {
 		bt.delete(52); // 删除有两个子节点的节点，且删除节点为根节点
 		System.out.println("\n----中序遍历----");
 		bt.inOrderTraverse(bt.mRootNode);
+
+		System.out.println("\n----输出每层的最大值----");
+		bfs(bt.mRootNode);
 	}
 }

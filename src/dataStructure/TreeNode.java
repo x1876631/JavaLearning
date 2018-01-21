@@ -5,17 +5,17 @@ package dataStructure;
  * <p>
  * 二叉树专用节点，有个数据域和左右子节点
  */
-public class BinaryNode {
+public class TreeNode {
 
 	public int value;
-	public BinaryNode left;
-	public BinaryNode right;
+	public TreeNode left;
+	public TreeNode right;
 
-	public BinaryNode(int value) {
+	public TreeNode(int value) {
 		this(value, null, null);
 	}
 
-	public BinaryNode(int value, BinaryNode left, BinaryNode right) {
+	public TreeNode(int value, TreeNode left, TreeNode right) {
 		this.value = value;
 		this.left = left;
 		this.right = right;
