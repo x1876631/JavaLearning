@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -447,6 +449,49 @@ public class BinaryTree {
 	}
 
 	/**
+	 * 输出二叉树每一行的所有值
+	 */
+	public static void outputLevel(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		queue.add(root);
+		int currentLevelCount = 1;
+		int nextLevelCount = 0;
+		ArrayList<Integer> levelList = new ArrayList<Integer>();
+		while (!queue.isEmpty()) {
+			// 从队列里拿一个节点
+			TreeNode currentNode = queue.poll();
+			// 添加到层数组里，一会换行时输出用
+			levelList.add(currentNode.value);
+			// 当前行计算减少1
+			currentLevelCount--;
+
+			// 添加左右子节点到队列里
+			if (currentNode.left != null) {
+				queue.add(currentNode.left);
+				nextLevelCount++;
+			}
+			if (currentNode.right != null) {
+				queue.add(currentNode.right);
+				nextLevelCount++;
+			}
+
+			// 判断本行是否都取完了
+			if (currentLevelCount == 0) {
+				// 输出当前行的所有值
+				System.out.println(Arrays.toString(levelList.toArray()));
+
+				// 继续下一行的计算
+				currentLevelCount = nextLevelCount;
+				nextLevelCount = 0;
+				levelList.clear();
+			}
+		}
+	}
+
+	/**
 	 * 反转二叉树，参考：http://blog.csdn.net/emira_j/article/details/51250450
 	 */
 	public static void reverse(TreeNode root) {
@@ -525,6 +570,9 @@ public class BinaryTree {
 
 		System.out.println("\n----输出每层的最大值----");
 		bfs(bt.mRootNode);
+
+		System.out.println("\n----输出每层的所有值----");
+		outputLevel(bt.mRootNode);
 
 		System.out.println("\n----反转二叉树----");
 		reverse(bt.mRootNode);
