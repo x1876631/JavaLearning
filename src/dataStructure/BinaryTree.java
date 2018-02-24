@@ -1,6 +1,7 @@
 package dataStructure;
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -445,6 +446,35 @@ public class BinaryTree {
 		}
 	}
 
+	/**
+	 * 反转二叉树，参考：http://blog.csdn.net/emira_j/article/details/51250450
+	 */
+	public static void reverse(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		queue.add(root);
+
+		// 反转二叉树的过程就是不断的反转其左右子树
+		while (!queue.isEmpty()) {
+			// 拿到当前节点，反转其子节点
+			TreeNode current = queue.poll();
+			TreeNode temp = current.left;
+			current.left = current.right;
+			current.right = temp;
+
+			// 将子节点存入队列
+			if (current.left != null) {
+				queue.add(current.left);
+			}
+			if (current.right != null) {
+				queue.add(current.right);
+			}
+		}
+
+	}
+
 	public static void main(String[] args) {
 		BinaryTree bt = new BinaryTree(52);
 		bt.insert(580);
@@ -459,16 +489,6 @@ public class BinaryTree {
 		bt.insert(455);
 		bt.insert(777);
 		bt.insert(999);
-		/***
-		 * 执行完以后，这个二叉树有5层，样子如下：<br/>
-		 *                52<br/>
-		 *        	12 				580<br/>
-		 *    	9      50   	58					888<br/>
-		 * 			 32	          	248     	 666      	999<br/>  
-		 * 								455     	777<br/>
-		 */
-		
-		
 
 		System.out.println("\n----获取树的深度----");
 		System.out.println("树的深度：" + bt.getDepth(bt.mRootNode));
@@ -505,5 +525,10 @@ public class BinaryTree {
 
 		System.out.println("\n----输出每层的最大值----");
 		bfs(bt.mRootNode);
+
+		System.out.println("\n----反转二叉树----");
+		reverse(bt.mRootNode);
+		System.out.println("\n----反转后，中序遍历----");
+		bt.inOrderTraverse(bt.mRootNode);
 	}
 }
