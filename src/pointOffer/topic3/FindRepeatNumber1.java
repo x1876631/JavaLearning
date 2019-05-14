@@ -11,8 +11,11 @@ import java.util.HashMap;
 public class FindRepeatNumber1 {
     public static void main(String[] args) {
         FindRepeatNumber1 number1 = new FindRepeatNumber1();
-        int[] array = {2, 3, 1, 0, 2, 5, 3};
-        System.out.print("重复数字是：" + number1.checkMySelf(array));
+        int[] array = {2, 3, 1, 0, 3, 5, 2};
+        int[] array2 = {2, 3, 1, 0, 4, 6, 5};
+        System.out.print("方法1，找到的array1的重复数字是：" + number1.checkMySelf(array) + "\n");
+        System.out.print("方法2，找到的array1的重复数字是：" + number1.best(array) + "\n");
+        System.out.print("方法2，找到的array2的重复数字是：" + number1.best(array2) + "\n");
     }
 
 
@@ -29,6 +32,29 @@ public class FindRepeatNumber1 {
             } else {
                 map.put(array[i], i);
             }
+        }
+        return -1;
+    }
+
+    /**
+     * 空间复杂度最小的解法，一直用的都是一个额外的空间来承载交换的数据，和n没有关系。所以复杂度是O(1)
+     * 同时也是时间复杂度最小的算法，由于n个元素每个元素最多只需要比较2次就能找到自己的位置，最坏的情况是所有元素都比较过，所以是O(an)，即O(n)
+     */
+    private int best(int[] array) {
+        for (int index = 0; index < array.length; index++) {
+            if (array[index] != index) {
+                if (array[index] != array[array[index]]) {
+                    //index与元素值m不相等，a[m]的位置上不是元素值m，则把元素值m放在a[m]处（即排序了），原a[m]值放到前面
+                    int temp = array[array[index]];
+                    array[array[index]] = array[index];
+                    array[index] = temp;
+                    best(array);
+                } else {
+                    //如果输入的数组元素是不重复的话，元素值m应该在a[m]的位置，如果现在发现a[m]是值m，说明值m就是重复的
+                    return array[index];
+                }
+            }
+            //index==元素值m，则继续向后查询
         }
         return -1;
     }
