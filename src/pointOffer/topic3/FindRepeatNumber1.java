@@ -13,7 +13,7 @@ public class FindRepeatNumber1 {
         FindRepeatNumber1 number1 = new FindRepeatNumber1();
         int[] array = {2, 3, 1, 0, 3, 5, 2};
         int[] array2 = {2, 3, 1, 0, 4, 6, 5};
-        System.out.print("方法1，找到的array1的重复数字是：" + number1.checkMySelf(array) + "\n");
+        System.out.print("方法1，找到的array1的重复数字是：" + number1.byMySelf(array) + "\n");
         System.out.print("方法2，找到的array1的重复数字是：" + number1.best(array) + "\n");
         System.out.print("方法2，找到的array2的重复数字是：" + number1.best(array2) + "\n");
     }
@@ -21,10 +21,10 @@ public class FindRepeatNumber1 {
 
     /*
      * 我自己第一时间想到的方法。
-     * 时间复杂度：最坏要判断n次，才能找到重复的数，所以是O(n)
+     * 时间复杂度：最坏要查询判断n次，每次查询要最坏要判断n次，才能找到重复的数，所以是O(n^2)
      * 空间复杂度：额外用了一个长度为n的数组，所以是O(n)
      */
-    private int checkMySelf(int[] array) {
+    private int byMySelf(int[] array) {
         HashMap<Integer, Integer> map = new HashMap<>(array.length);
         for (int i = 0; i < array.length; i++) {
             if (map.containsKey(array[i])) {
